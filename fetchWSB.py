@@ -7,8 +7,7 @@ from google.cloud import bigquery
 from dotenv import load_dotenv
 
 # Constants
-POSTS_TO_FETCH = 1000
-COMMENTS_PER_POST = 1000
+POSTS_TO_FETCH = 10
 
 # Load environment variables
 load_dotenv()
@@ -56,20 +55,21 @@ for post in subreddit.new(limit=POSTS_TO_FETCH):
     posts_data.append(post_dict)
 
 # ✅ Insert posts into BigQuery
-job = client.insert_rows_json(posts_table, posts_data)
-if job == []:
-    print("✅ WSB Posts Saved to BigQuery!")
-else:
-    print("❌ Error inserting posts:", job)
+try:
+    job = client.insert_rows_json(posts_table, posts_data)
+    if job == []:
+        print("✅ WSB Posts Saved to BigQuery!")
+    else:
+        print("❌ Error inserting posts:", job)
+except Exception as e:
+    print("❌ Error inserting posts:", e)
 
 # ✅ Fetch comments for each post
-comments_data = []
 for post in posts_data:
     submission = reddit.submission(id=post["id"])
     submission.comments.replace_more(limit=5)
     
-    comment_count = 0  # Track comment count
-    print(f"Fetching comments for post: {submission.title} - {len(submission.comments.list())}")
+    comments_data = []  # Store comments
     for comment in submission.comments.list():
         comment_dict = {
             "id": comment.id,
@@ -83,9 +83,14 @@ for post in posts_data:
         }
         comments_data.append(comment_dict)
 
-# ✅ Insert comments into BigQuery
-job = client.insert_rows_json(comments_table, comments_data)
-if job == []:
-    print("✅ WSB Comments Saved to BigQuery!")
-else:
-    print("❌ Error inserting comments:", job)
+    # ✅ Insert comments into BigQuery
+    try:
+        job = client.insert_rows_json(comments_table, comments_data)
+        if job == []:
+            print(f"✅ Comments for -- {submission.title} -- Saved to BigQuery! ({len(comments_data)})")
+        else:
+            print("❌ Error inserting comments:", job)
+    except Exception as e:
+        print("❌ Error inserting comments:", e)
+
+
