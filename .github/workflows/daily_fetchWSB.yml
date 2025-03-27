@@ -1,0 +1,38 @@
+name: Run WSB Reddit Scraper Daily
+
+on:
+  schedule:
+    - cron: "0 15 * * *"  # Runs at 15:00 UTC every day
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Setup Environment Variables
+        run: |
+          echo "CLIENT_ID=${{ secrets.CLIENT_ID }}" >> $GITHUB_ENV
+          echo "CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}" >> $GITHUB_ENV
+
+      - name: Authenticate with Google Cloud
+        env:
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+        run: |
+          echo "$GOOGLE_CREDENTIALS_JSON" > credentials.json
+          export GOOGLE_APPLICATION_CREDENTIALS=credentials.json
+
+      - name: Run Reddit Scraper
+        run: python fetchWSB.py
