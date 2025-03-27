@@ -43,4 +43,4 @@ jobs:
           export GOOGLE_APPLICATION_CREDENTIALS=credentials.json
 
       - name: Run Reddit Scraper
-        run: python script.py
+        run: python fetchWSB.py
