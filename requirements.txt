@@ -1,0 +1,3 @@
+praw
+google-cloud-bigquery
+python-dotenv
