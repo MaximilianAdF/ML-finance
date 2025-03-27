@@ -7,7 +7,7 @@ from google.cloud import bigquery
 from dotenv import load_dotenv
 
 # Constants
-POSTS_TO_FETCH = 10
+POSTS_TO_FETCH = 1000
 
 # Load environment variables
 load_dotenv()
