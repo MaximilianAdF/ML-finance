@@ -1,14 +1,6 @@
 name: Run WSB Reddit Scraper Daily
 
-on:
-  push:
-    branches:
-      - main
-      - reddit
-  pull_request:
-    branches:
-      - main
-      - reddit  
+on: 
   schedule:
     - cron: "0 15 * * *"  # Runs at 15:00 UTC every day
   workflow_dispatch:  # Allows manual triggering
