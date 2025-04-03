@@ -25,26 +25,11 @@ HEADERS = {
 }
 
 # The queries to run 
-QUERIES = [
-    "Federal Reserve OR interest rates OR inflation OR recession OR economic growth OR GDP OR CPI OR PPI "
-    "OR stock market crash OR stock market rally OR Wall Street reaction",
-
-    "bought stock OR sold stock OR investing in OR stock went up OR stock went down "
-    "OR stock trading OR buying stocks OR stock prediction",
-
-    # 3️⃣ Hashtags & Market Sentiment
-    "#StockMarket OR #Stocks OR #Investing OR #OptionsTrading OR #Earnings OR #WallStreet "
-    "#Bullish OR #Bearish OR #MarketCrash OR #Recession OR #Inflation OR #FederalReserve",
-    
-    # 4️⃣ General Stock Market & Economic Keywords
-    "stock market OR stocks OR trading OR investing OR Wall Street OR bull market OR bull OR bear OR bear market "
-    "OR economic crash OR interest rates OR Federal Reserve OR rate hike OR GDP OR CPI OR PPI "
-    "OR earnings report OR inflation data OR bond yields OR market volatility",
-    
-    # 5️⃣ Financial News Sources
-    "from:CNBC OR from:WSJMarkets OR from:Bloomberg OR from:FinancialTimes OR from:ReutersBiz "
-    "OR from:Stocktwits OR from:zerohedge OR from:business OR from:realDonaldTrump"
-]
+QUERIES = {
+    "AAPL": "",
+    "MSFT": "",
+    "TSLA":
+}
 
 
 def fetchUserTweets(user_id, cursor=""):
@@ -113,7 +98,7 @@ def fetchQueryTweets(query, queryType, cursor=""):
         raise Exception(f"Error fetching tweets: {response.status_code} - {response.text}")
 
 
-def filterTweets(tweets):
+def filterTweets(tweets, ticker):
     """
     Filter the tweets to only include the necessary and wanted fields
     :param tweets: The list of tweets
@@ -130,8 +115,8 @@ def filterTweets(tweets):
             "retweets": tweet.get("retweetCount"),
             "replies": tweet.get("replyCount"),
             "views": tweet.get("viewCount"),
-            "sentiment": [],
-            "market_reference": [],
+            "sentiment": None,
+            "ticker": ticker
         }
 
         filtered_tweets.append(filtered_tweet)
@@ -154,13 +139,22 @@ def postToBigQuery(filtered_tweets):
         print("❌ Error inserting tweets:", e)
     
 
+def buildQuery(company_keywords):
+    """
+    Build the query for the Twitter API
+    :param company_keywords: The keywords to search for
+    :return: The query string
+    """
+    return " OR ".join([f"\"{keyword}\"" for keyword in company_keywords])
+
 
 def automateBiDaily():
     """
     Automate the process of fetching tweets and posting to BigQuery every two hours
     :return: None
     """
-    for query in QUERIES:
+    for ticker, keywords in QUERIES.items():
+        query = buildQuery(keywords.split(","))
         query += f" since:{QUERY_DATE}"
 
         pages = 0
@@ -171,7 +165,7 @@ def automateBiDaily():
             cursor = response.get("next_cursor")
             
             if tweets:
-                filtered_tweets = filterTweets(tweets)
+                filtered_tweets = filterTweets(tweets, ticker)
                 postToBigQuery(filtered_tweets)
 
             else:
@@ -180,7 +174,7 @@ def automateBiDaily():
 
             pages += 1
 
-        print(f"✅ Finished fetching tweets for {query}, {pages} pages fetched")
+        print(f"✅ Finished fetching tweets for {query}, {pages} page(s) fetched")
 
             
 
