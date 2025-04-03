@@ -26,9 +26,11 @@ HEADERS = {
 
 # The queries to run 
 QUERIES = {
-    "AAPL": "",
-    "MSFT": "",
-    "TSLA":
+    "AAPL": ["Apple stock","AAPL stock","Apple bear","AAPL bear","Apple bull","AAPL bull","Apple drop","AAPL drop","Apple news","AAPL news","Apple earnings","AAPL earnings","Apple price target","AAPL forecast","AAPL price","AAPL update","AAPL prediction","AAPL rise","AAPL surge","AAPL rally","Apple revenue","Apple valuation","Apple performance","Apple innovation","iPhone sales","Apple services","Apple stock analysis","AAPL volatility","Apple stock predictions","Apple quarterly report","AAPL earnings call"],
+    "MSFT": ["Microsoft stock", "MSFT stock", "Microsoft bear", "MSFT bear", "Microsoft bull", "MSFT bull", "Microsoft drop", "MSFT drop", "Microsoft news", "MSFT news", "Microsoft earnings", "MSFT earnings", "Microsoft price target", "MSFT forecast", "MSFT price", "Microsoft update", "MSFT update", "MSFT prediction", "Microsoft rise", "MSFT surge", "Microsoft revenue", "Microsoft quarterly report", "Microsoft products", "Microsoft services", "MSFT stock predictions", "Microsoft performance", "Microsoft AI", "MSFT earnings call", "Microsoft cloud"],
+    "TSLA": ["Telsa stock", "TSLA stock", "Tesla bear", "TSLA bear", "Tesla bull", "TSLA bull", "Tesla drop", "TSLA drop", "Tesla news", "TSLA news", "Tesla earnings", "TSLA earnings", "Tesla price target", "TSLA forecast", "TSLA price", "Tesla update", "TSLA update", "TSLA prediction", "Tesla rise", "TSLA surge", "Tesla revenue", "Tesla quarterly report", "Tesla Model S", "TSLA stock predictions", "Elon Musk Tesla", "Tesla performance", "Tesla AI", "TSLA earnings call", "Tesla energy"],
+    "GOOGL": ["Google stock", "GOOGL stock", "Google bear", "GOOGL bear", "Google bull", "GOOGL bull", "Google drop", "GOOGL drop", "Google news", "GOOGL news", "Google earnings", "GOOGL earnings", "Google price target", "GOOGL forecast", "GOOGL price", "Google update", "GOOGL update", "GOOGL prediction", "Google rise", "GOOGL surge", "Google revenue", "Google quarterly report", "Google cloud", "Alphabet stock", "Google AI", "GOOGL stock predictions", "Google performance", "GOOGL earnings call"],
+    "AMZN": ["Amazon stock", "AMZN stock", "Amazon bear", "AMZN bear", "Amazon bull", "AMZN bull", "Amazon drop", "AMZN drop", "Amazon news", "AMZN news", "Amazon earnings", "AMZN earnings", "Amazon price target", "AMZN forecast", "AMZN price", "Amazon update", "AMZN update", "AMZN prediction", "Amazon rise", "AMZN surge", "Amazon revenue", "Amazon quarterly report", "Amazon Prime Day", "AMZN cloud", "Amazon stock predictions", "Amazon performance", "AMZN earnings call"],
 }
 
 
