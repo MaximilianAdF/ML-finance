@@ -165,7 +165,7 @@ def automateBiDaily():
 
         pages = 0
         cursor = ""
-        while (cursor != None and pages < 1):
+        while (cursor != None and pages < 15):
             response = fetchQueryTweets(query, "Top", cursor)
             tweets = response.get("tweets")
             cursor = response.get("next_cursor")
