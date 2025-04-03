@@ -124,7 +124,7 @@ def filterTweets(tweets):
 
         filtered_tweet = {
             "id": tweet.get("id"),
-            "created_utc": tweet.get("createdAt"),
+            "created_utc": datetime.strptime(tweet.get("createdAt"), "%a %b %d %H:%M:%S +0000 %Y").strftime("%Y-%m-%d %H:%M:%S UTC"),
             "text": tweet.get("text"),
             "likes": tweet.get("likeCount"),
             "retweets": tweet.get("retweetCount"),
@@ -165,7 +165,7 @@ def automateBiDaily():
 
         pages = 0
         cursor = ""
-        while (cursor != None and pages < 15):
+        while (cursor != None and pages < 1):
             response = fetchQueryTweets(query, "Top", cursor)
             tweets = response.get("tweets")
             cursor = response.get("next_cursor")
