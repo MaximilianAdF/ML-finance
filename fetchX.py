@@ -156,7 +156,7 @@ def automateBiDaily():
     :return: None
     """
     for ticker, keywords in QUERIES.items():
-        query = buildQuery(keywords.split(","))
+        query = buildQuery(keywords)
         query += f" since:{QUERY_DATE}"
 
         pages = 0
