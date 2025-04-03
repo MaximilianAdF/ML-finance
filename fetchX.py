@@ -147,7 +147,7 @@ def buildQuery(company_keywords):
     :param company_keywords: The keywords to search for
     :return: The query string
     """
-    return " OR ".join([f"\"{keyword}\"" for keyword in company_keywords])
+    return " OR ".join(company_keywords)
 
 
 def automateBiDaily():
@@ -156,8 +156,7 @@ def automateBiDaily():
     :return: None
     """
     for ticker, keywords in QUERIES.items():
-        query = buildQuery(keywords)
-        query += f" since:{QUERY_DATE}"
+        query = f"since:{QUERY_DATE} {buildQuery(keywords)}"
 
         pages = 0
         cursor = ""
@@ -167,6 +166,7 @@ def automateBiDaily():
             cursor = response.get("next_cursor")
             
             if tweets:
+                print(tweets[0].get("createdAt"), QUERY_DATE)
                 filtered_tweets = filterTweets(tweets, ticker)
                 postToBigQuery(filtered_tweets)
 
