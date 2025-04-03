@@ -2,7 +2,7 @@ name: Run X API Bi Daily
 
 on:
   schedule:
-    - cron: "15 */12 * * *"  # Runs every 12 hours
+    - cron: "45 14,02 * * *"  # Runs every 12 hours
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
