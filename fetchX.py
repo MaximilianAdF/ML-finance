@@ -117,7 +117,6 @@ def filterTweets(tweets, ticker):
             "retweets": tweet.get("retweetCount"),
             "replies": tweet.get("replyCount"),
             "views": tweet.get("viewCount"),
-            "sentiment": None,
             "ticker": ticker
         }
 
@@ -166,7 +165,6 @@ def automateBiDaily():
             cursor = response.get("next_cursor")
             
             if tweets:
-                print(tweets[0].get("createdAt"), QUERY_DATE)
                 filtered_tweets = filterTweets(tweets, ticker)
                 postToBigQuery(filtered_tweets)
 
