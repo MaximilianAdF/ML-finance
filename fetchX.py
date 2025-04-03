@@ -169,12 +169,12 @@ def automateBiDaily():
                 postToBigQuery(filtered_tweets)
 
             else:
-                print(f"❌ No tweets found for {query} page {pages + 1}")
+                print(f"❌ No tweets found for {ticker} page {pages}")
                 break
 
             pages += 1
 
-        print(f"✅ Finished fetching tweets for {query}, {pages} page(s) fetched")
+        print(f"✅ Finished fetching tweets for {ticker}, {pages} page(s) fetched")
 
             
 
