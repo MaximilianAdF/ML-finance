@@ -1,0 +1,37 @@
+name: Run X API Bi Daily
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"  # Runs every 12 hours
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Setup Environment Variables
+        run: |
+          echo "TWITTER_API_KEY=${{ secrets.TWITTER_API_KEY }}" >> $GITHUB_ENV
+
+      - name: Authenticate with Google Cloud
+        env:
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+        run: |
+          echo "$GOOGLE_CREDENTIALS_JSON" > credentials.json
+          export GOOGLE_APPLICATION_CREDENTIALS=credentials.json
+
+      - name: Run X API
+        run: python fetchX.py
